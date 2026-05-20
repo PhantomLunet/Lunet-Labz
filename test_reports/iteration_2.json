@@ -1,0 +1,32 @@
+{
+  "summary": "Iteration 2 testing complete for Lunet Labz scroll-expand redesign. Backend: 10/10 pytest tests pass (projects list returns 6 seeded, waitlist 200/409/422 flows, count endpoint). Frontend: All new components render cleanly — ScrollExpandMedia hero with 'Lunet Labz' editorial typography (split across two H1s, terracotta 'Labz'), transparent ghost PNG loads at 1024x1024, ghost-stage with floating-ghost section after hero, ScrollTiltedGrid renders with all 6 project labels, all 6 ProjectListItem cards (ghostpad, lanternfm, atlas-cli, lumenboard, tinybrew, mothlamp) rendered with action buttons, Features/HowItWorks/Coffee/Footer sections all present, waitlist form submission works (backend count went up). Zero JS console errors. Spline scene constant is null as intended — falls back to transparent ghost PNG, no crash.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_lunet_api.py",
+    "/app/test_reports/pytest/lunet_api.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "ScrollExpandMedia attaches window-level wheel/scroll/touch listeners that preventDefault and forcibly scrollTo(0,0) until image fully expands. This intercepts ALL wheel events globally — works as designed for the intro stage, but means keyboard nav (Page Down / arrow keys) and anchor links (e.g., #projects in nav) will not navigate past the intro until the user generates enough wheel delta. Consider supporting keydown for accessibility.",
+    "Hero.jsx defines SPLINE_GHOST_SCENE=null intentionally; SplineScene component is imported but never rendered. Lazy import is fine, but the dead import will show in bundle. Minor.",
+    "Hero.jsx FloatingGhost sets onError on a <div> wrapping SplineScene — this won't fire because <div> doesn't bubble error events from inside Spline. Currently harmless since scene is null, but if a scene URL is added later, splineFailed fallback won't trigger. Recommend passing onError prop into SplineScene itself.",
+    "ScrollTiltedGrid uses cubicBezier(0.22,1,0.36,1) as 'easeIn' which is actually an ease-out curve — naming is misleading but visual result is intentional.",
+    "Anchor nav links in header (#projects, #features etc.) won't work while ScrollExpandMedia intercept is active — user must wheel-expand first before in-page anchors function."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (10/10)", "frontend": "100%"},
+  "test_credentials": "none required",
+  "seed_data_creation": "Added 1 new waitlist entry (iter2_<uuid>@example.com) via UI submission, plus several entries via pytest. Total waitlist count is now 11. Safe to leave.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Use page.mouse.wheel(0,200) repeatedly (~40 ticks) to trigger ScrollExpandMedia full expand before testing in-page nav or scrolling to ghost-stage/projects. ScrollExpandMedia globally intercepts wheel/touch until mediaFullyExpanded. Waitlist form (testid=waitlist-form) is INSIDE ScrollExpandMedia children — appears after full expand. Section testids: scroll-expand-hero, hero, ghost-stage, floating-ghost, projects-section, scroll-tilted-grid, features-section, how-section (NOT how-it-works), coffee-section, footer. Project cards: project-card-{id}. Spline scene URL is intentionally null — do not flag.",
+  "rca of the issue": "n/a — no production bugs found in iteration 2."
+}
