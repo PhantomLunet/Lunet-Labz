@@ -82,7 +82,10 @@ webpackConfig.devServer = (devServerConfig) => {
 };
 
 // Wrap with visual edits (automatically adds babel plugin, dev server, and overlay in dev mode)
-if (isDevServer) {
+// NOTE: Disabled for this project because @emergentbase/visual-edits injects
+// data-x-line-number / data-x-file-name props that conflict with @react-three/fiber's
+// dashed-path prop convention (applyProps -> "x-line-number" path traversal).
+if (false && isDevServer) {
   try {
     const { withVisualEdits } = require("@emergentbase/visual-edits/craco");
     webpackConfig = withVisualEdits(webpackConfig);
