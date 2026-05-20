@@ -22,12 +22,14 @@ Build a landing page for a website called "Lunet Labz" — a website for project
 
 ## Implemented Features (Dec 2025)
 - **Iteration 1**: Hero with R3F canvas, projects bento grid, features, how-it-works, coffee, footer marquee.
-- **Iteration 2 (current)**:
-  - Replaced R3F hero with `ScrollExpandMedia` — wheel/touch-driven image-grows-into-view intro using transparent-bg ghost PNG. Title splits into two H1s ("Lunet" + "Labz" terracotta italic).
-  - Added `FloatingGhost` stage: transparent ghost PNG floating with motion + soft halo + optional Spline scene (`SPLINE_GHOST_SCENE` null until user provides scene URL).
-  - Replaced Projects bento with `ScrollTiltedGrid` — cinematic tilted reel of project images that rise, focus, then tilt out as you scroll. Below it: an action shelf list with all project links.
-  - rembg-generated `/public/ghost-transparent.png` (alpha cutout of Nano Banana ghost).
-  - Anchor links in nav now auto-skip the scroll-expand intro.
+- **Iteration 2**: Replaced R3F hero with ScrollExpandMedia + tilted grid + Spline scaffolding.
+- **Iteration 3 (current)**:
+  - **Pinned-scroll Hero (300vh sticky)**: Phase A (`0 → 0.3`) — "Lunet" + "Labz" slide IN from outside viewport, settling on either side of the ghost at the **same height**, never crossing in front of the ghost. Phase B (`0.18 → 0.58`) — subtitle + waitlist form become interactive. Phase C (`0.6 → 1.0`) — ghost flips (rotateY 0→360°), shrinks, and drifts up-left while the "Meet the Mascot" copy fades in. Ghost opacity reduced to 0.55 so it sits BEHIND the text.
+  - **Multi-route SPA**: `/`, `/projects` (full listing), `/projects/:id` (detail page with related projects), `/features` (8-principle manifesto + CTAs).
+  - **ScrollTiltedGrid is clickable**: each tile is an anchor linking to its `/projects/:id`.
+  - **"Show all projects" CTA**: positioned above the tilted grid on the home page.
+  - **Critical CSS fix**: changed `overflow-x: hidden` → `overflow-x: clip` on html/body (the former breaks `position: sticky`).
+  - **Hero motion bypass**: Hero uses manual `lerpRange` interpolation driven by `useMotionValueEvent` + React state instead of framer-motion's `useTransform → style` chain, which wasn't propagating to the DOM under React 19 + fm v12.
 
 ## P0/P1/P2 Backlog
 - P1: Mobile responsiveness fine-tuning for ghost canvas

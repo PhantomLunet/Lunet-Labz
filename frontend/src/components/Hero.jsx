@@ -102,26 +102,27 @@ export default function Hero() {
   useMotionValueEvent(scrollYProgress, "change", (v) => setP(v));
 
   // ── Title positions (Phase A) ──────────────────────────────────────
-  const lunetX = lerpRange(p, [0, 0.35, 1], [-65, -26, -26]);
-  const labzX = lerpRange(p, [0, 0.35, 1], [65, 26, 26]);
-  const titleOpacity = lerpRange(p, [0, 0.05, 0.55, 0.75], [0, 1, 1, 0]);
-  const titleScale = lerpRange(p, [0, 0.35, 0.55, 0.75], [0.6, 1, 1, 0.85]);
+  const lunetX = lerpRange(p, [0, 0.3, 1], [-65, -26, -26]);
+  const labzX = lerpRange(p, [0, 0.3, 1], [65, 26, 26]);
+  // Tight fade-out so Lunet/Labz fully clear BEFORE mascot copy crosses in
+  const titleOpacity = lerpRange(p, [0, 0.05, 0.5, 0.6], [0, 1, 1, 0]);
+  const titleScale = lerpRange(p, [0, 0.3, 0.55, 0.6], [0.6, 1, 1, 0.85]);
 
   // ── Ghost transforms ──────────────────────────────────────────────
-  const ghostXvw = lerpRange(p, [0, 0.55, 1], [0, 0, -18]);
-  const ghostYvh = lerpRange(p, [0, 0.55, 1], [0, 0, -4]);
-  const ghostRotateY = lerpRange(p, [0, 0.55, 1], [0, 0, 360]);
-  const ghostScale = lerpRange(p, [0, 0.55, 0.78, 1], [1, 1, 0.78, 0.95]);
-  const ghostOpacity = lerpRange(p, [0, 0.55, 0.78, 1], [1, 1, 0.7, 0.55]);
+  const ghostXvw = lerpRange(p, [0, 0.6, 1], [0, 0, -18]);
+  const ghostYvh = lerpRange(p, [0, 0.6, 1], [0, 0, -4]);
+  const ghostRotateY = lerpRange(p, [0, 0.6, 1], [0, 0, 360]);
+  const ghostScale = lerpRange(p, [0, 0.6, 0.8, 1], [1, 1, 0.78, 0.95]);
+  const ghostOpacity = lerpRange(p, [0, 0.6, 0.8, 1], [1, 1, 0.7, 0.55]);
 
-  // ── Mascot copy ───────────────────────────────────────────────────
-  const mascotOpacity = lerpRange(p, [0, 0.55, 0.7, 1], [0, 0, 1, 1]);
-  const mascotXvw = lerpRange(p, [0, 0.55, 1], [6, 6, 0]);
+  // ── Mascot copy (begins after title is fully gone) ─────────────────
+  const mascotOpacity = lerpRange(p, [0, 0.6, 0.78, 1], [0, 0, 1, 1]);
+  const mascotXvw = lerpRange(p, [0, 0.6, 1], [6, 6, 0]);
 
-  // ── Subtitle / waitlist (Phase B) ─────────────────────────────────
+  // ── Subtitle / waitlist (Phase B — wider dwell so it's actually interactable) ─
   const subtitleOpacity = lerpRange(
     p,
-    [0, 0.3, 0.4, 0.5, 0.6],
+    [0, 0.18, 0.3, 0.5, 0.58],
     [0, 0, 1, 1, 0]
   );
 
