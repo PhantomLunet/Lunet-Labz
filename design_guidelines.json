@@ -1,0 +1,110 @@
+{
+  "theme_archetype": {
+    "theme": "Light",
+    "archetype": "Organic & Earthy",
+    "vibe": "Mystical, editorial, artisanal, ghost-lab apothecary, warm and non-techy."
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Cormorant Garamond, serif",
+      "weights": ["300", "400", "500", "600", "700"],
+      "usage": "H1, H2, H3. Use for mystical, editorial feel. Tightly track large headings."
+    },
+    "body": {
+      "font_family": "Outfit, sans-serif",
+      "weights": ["300", "400", "500"],
+      "usage": "Body text, buttons, labels. Provides clean contrast."
+    },
+    "mono": {
+      "font_family": "JetBrains Mono, monospace",
+      "usage": "Use sparingly for small labels or 'code' aesthetic hints."
+    }
+  },
+  "colors": {
+    "background": "#F4F1ED",
+    "background_alt": "#E6E2D8",
+    "text_primary": "#1A1A1A",
+    "text_secondary": "#5C5A56",
+    "accent_primary": "#A3B19B",
+    "accent_secondary": "#C27B66",
+    "border": "#D8D4CC"
+  },
+  "layout_spacing": {
+    "container": "max-w-7xl mx-auto px-6 md:px-12 lg:px-24",
+    "section_padding": "py-24 md:py-32 lg:py-48",
+    "bento_grid": "grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12"
+  },
+  "components": {
+    "buttons": "Rounded-full, solid charcoal or terracotta background, light text. Hover: slight scale and opacity change. Minimalist.",
+    "cards": "Flat background (sand or white), 1px border (#D8D4CC), subtle inner glow, NO heavy shadows. Use soft rounded corners (rounded-2xl).",
+    "inputs": "Underlined or subtle rounded-full borders. Not boxy SaaS inputs.",
+    "nav": "Glassmorphism header (backdrop-blur-xl bg-[#F4F1ED]/70) with 1px border-b border-[#D8D4CC]."
+  },
+  "motion_and_3d": {
+    "scroll": "MANDATORY: Use lenis for smooth scrolling to provide a premium feel.",
+    "framer_motion": "Fade up and slow parallax on all major typography and imagery. Staggered reveals for lists and bento grids.",
+    "r3f": "Use React Three Fiber. In the Hero, render the ghost mascot image on a floating plane (using Drei's <Float> and <Decal> or simple textured mesh) with gentle floating animation and soft ambient particles (<Sparkles>). The ghost must serve as the 3D focal point.",
+    "parallax": "Use scroll-triggered parallax for background layers and floating elements."
+  },
+  "sections_guide": [
+    {
+      "id": "hero",
+      "description": "3D Hero Intro with animated ghost. Big serif typography 'Lunet Labz'. Waitlist input.",
+      "layout": "Full height (min-h-screen). Asymmetrical. Ghost 3D scene on right, text on left."
+    },
+    {
+      "id": "projects",
+      "description": "Showcase Grid. Apps with download/webapp links.",
+      "layout": "Bento grid (TETRIS mode). 1 large hero project, smaller side-by-side cards."
+    },
+    {
+      "id": "features",
+      "description": "Why use Lunet Labz. Ethereal, mystical copy.",
+      "layout": "Alternating left/right text blocks with ample whitespace."
+    },
+    {
+      "id": "how_it_works",
+      "description": "Steps to deploy/use.",
+      "layout": "Vertical timeline or 3-column minimalist layout."
+    },
+    {
+      "id": "buy_us_coffee",
+      "description": "Support CTA. Friendly tip-jar.",
+      "layout": "Centered, warm terracotta accents. Coffee cup image."
+    }
+  ],
+  "media_assets": [
+    {
+      "category": "hero_ghost_mascot",
+      "url": "https://static.prod-images.emergentagent.com/jobs/cf313e6c-1ef6-480f-8538-031db3fc25ba/images/7c5b31871d6467e38ff062ebd5f5f5ed2acc32acd94f16699c3b8feb62fd6dda.png",
+      "description": "Bone-white soft ceramic ghost with </> mouth. Use in R3F Hero Canvas.",
+      "instructions_to_main_agent": "Load this image as a texture onto a R3F mesh (like a <Plane> or specialized shape) using useTexture. Add <Float> to give it 3D motion. Add soft lighting to blend it with the HTML background."
+    },
+    {
+      "category": "background_texture",
+      "url": "https://static.prod-images.emergentagent.com/jobs/cf313e6c-1ef6-480f-8538-031db3fc25ba/images/d5bcc511520c5ecc6d06df8778ccedbcb5f10598148cb9cd916acf028ab36eb9.png",
+      "description": "Warm parchment paper texture. Use as a subtle blended background image for the body or specific sections.",
+      "instructions_to_main_agent": "Set as body background with background-size: cover, opacity around 30-50% and blend mode multiply/overlay against the #F4F1ED base color."
+    },
+    {
+      "category": "coffee_jar",
+      "url": "https://static.prod-images.emergentagent.com/jobs/cf313e6c-1ef6-480f-8538-031db3fc25ba/images/40c54adcf14c80d65270dce38357b0aae75298f8f0f0f8376df625e75f24b3b0.png",
+      "description": "Artisanal 3D coffee cup. Use in 'Buy us a coffee' section.",
+      "instructions_to_main_agent": "Use as a high-quality standard <img> element with floating Framer Motion animation in the Buy Us A Coffee section."
+    },
+    {
+      "category": "project_placeholder",
+      "url": "https://images.unsplash.com/photo-1660721671073-e139688fa3cf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMG9yZ2FuaWMlMjBjZXJhbWljJTIwc2hhcGVzJTIwd2FybSUyMG5ldXRyYWx8ZW58MHx8fHwxNzc5MjgyMTM1fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Organic ceramic shapes. Use as placeholder for project images.",
+      "instructions_to_main_agent": "Use this to fill out the project bento grid cards."
+    }
+  ],
+  "instructions_to_main_agent": [
+    "DO NOT use Inter, Roboto, or standard SaaS fonts. Use Cormorant Garamond for headings and Outfit for body.",
+    "NO CYBERPUNK or TECHY themes. The vibe is 'Apothecary / Mystical Workshop'.",
+    "Use Lenis for smooth scrolling.",
+    "Integrate the generated ghost mascot image into the R3F scene. You can map it onto a plane geometry in R3F and use Drei's <Float> component to make it bob.",
+    "Add test IDs (data-testid) to all interactive elements.",
+    "For projects, use a 2D scroll grid with Framer Motion, triggered on scroll."
+  ]
+}
