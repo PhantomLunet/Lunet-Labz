@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import SmoothScroll from "@/components/SmoothScroll";
 import Landing from "@/pages/Landing";
+import ProjectsPage from "@/pages/ProjectsPage";
+import ProjectDetailPage from "@/pages/ProjectDetailPage";
+import FeaturesPage from "@/pages/FeaturesPage";
 
 function App() {
   return (
@@ -11,6 +14,9 @@ function App() {
         <SmoothScroll>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/projects/:id" element={<ProjectDetailPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
           </Routes>
         </SmoothScroll>
       </BrowserRouter>

@@ -12,7 +12,7 @@ const easeIn = cubicBezier(0.22, 1, 0.36, 1);
 const easeOut = cubicBezier(0, 0, 0.58, 1);
 const FOCUS_EASE = [easeIn, easeOut];
 
-function Tile({ src, side, config, label }) {
+function Tile({ src, side, config, label, href }) {
   const ref = useRef(null);
   const { scrollYProgress: p } = useScroll({
     target: ref,
@@ -42,8 +42,8 @@ function Tile({ src, side, config, label }) {
   const filter = useMotionTemplate`blur(${blur}px) brightness(${bright}) contrast(${contrast})`;
 
   if (reduce) {
-    return (
-      <figure ref={ref} className="relative z-10 m-0">
+    const Inner = (
+      <>
         <div
           className="relative w-full overflow-hidden card-paper"
           style={{ aspectRatio, borderRadius: rounded }}
@@ -58,16 +58,23 @@ function Tile({ src, side, config, label }) {
             {label}
           </figcaption>
         )}
+      </>
+    );
+    return (
+      <figure ref={ref} className="relative z-10 m-0">
+        {href ? (
+          <a href={href} className="block group cursor-pointer">
+            {Inner}
+          </a>
+        ) : (
+          Inner
+        )}
       </figure>
     );
   }
 
-  return (
-    <motion.figure
-      ref={ref}
-      className="relative z-10 m-0"
-      style={{ perspective, willChange: "transform" }}
-    >
+  const motionInner = (
+    <>
       <motion.div
         className="relative w-full overflow-hidden will-change-[filter,transform] border border-[var(--border)]"
         style={{
@@ -91,6 +98,13 @@ function Tile({ src, side, config, label }) {
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(26,26,26,0.35)] via-transparent to-transparent" />
+        {href && (
+          <div className="absolute inset-0 flex items-end justify-start p-5 opacity-0 hover:opacity-100 transition-opacity duration-500">
+            <span className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--bg)] bg-[var(--ink)] px-3 py-1.5 rounded-full">
+              Open →
+            </span>
+          </div>
+        )}
       </motion.div>
       {label && (
         <motion.figcaption
@@ -99,6 +113,26 @@ function Tile({ src, side, config, label }) {
         >
           {label}
         </motion.figcaption>
+      )}
+    </>
+  );
+
+  return (
+    <motion.figure
+      ref={ref}
+      className="relative z-10 m-0"
+      style={{ perspective, willChange: "transform" }}
+      data-testid={href ? `tile-link-${label}` : undefined}
+    >
+      {href ? (
+        <a
+          href={href}
+          className="block group cursor-pointer focus:outline-none"
+        >
+          {motionInner}
+        </a>
+      ) : (
+        motionInner
       )}
     </motion.figure>
   );
@@ -187,6 +221,7 @@ export default function ScrollTiltedGrid({
             key={`${i}-${it.src}`}
             src={it.src}
             label={it.label}
+            href={it.href}
             side={i % 2 === 0 ? "L" : "R"}
             config={config}
           />

@@ -1,0 +1,38 @@
+{
+  "summary": "Iteration 3 e2e testing complete for Lunet Labz pinned-hero redesign + routed pages. Backend: 10/10 pytest pass (projects list returns 6, waitlist 200/409/422, count endpoint, dedup case-insensitive). Frontend: Hero 300vh sticky-pinned scroll works through all three phases as designed: Phase A scroll=0 ghost-only (Lunet/Labz opacity=0, translateX ±65vw); Phase B scroll≈950 titles settle on either side at ±26vw with opacity=1 and subtitle+waitlist wrapper opacity=1, pointerEvents=auto; Phase C scroll≈2100 ghost transform = translate(-16.9vw,-3.75vh) scale(0.93) rotateY active, ghost opacity 0.57 (visually behind mascot copy), mascot-copy opacity=1 with both CTA pills. /projects route lists all 6 projects with conditional pp-open/pp-download/pp-github buttons (some projects intentionally lack one or more URLs in seed data) + pp-details for every card. /projects/:id renders detail-title, image, description, action buttons, and 3 related project cards. /features renders 8 principles + 2 CTA links. Navbar Projects/Features react-router links navigate correctly. Show-all-projects-btn navigates to /projects. Tile-link-{Label} anchors navigate to /projects/{id}. Waitlist form submission succeeded (backend count 15→16) and sonner success toast appeared. Zero JS console errors throughout.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Hero Phase B→C transition (~scroll 1200-1500)", "issues": ["During the crossfade between Phase B titles (Lunet/Labz still ~60% opacity) and Phase C mascot copy (already ~50% opacity), the 'He runs the deploy button.' headline visually overlaps with the 'Lunet' wordmark. Per spec the ghost is supposed to flip BEHIND the text, but the Lunet/Labz wordmarks themselves overlap with mascot copy because both are z-20/z-30 visible simultaneously during the 0.55-0.75 range. Consider tightening titleOpacity fadeout to finish before mascotOpacity reaches >0.3, or push mascotXvw further right so mascot text doesn't cross Lunet's bounding box. Functional, but the editorial layering looks momentarily messy."]},
+      {"screen": "Hero Phase B waitlist visibility window", "issues": ["subtitleOpacity range is [0.4,0.5] = ~216px of scroll (864→1080). Outside this band the form is opacity 0 with pointerEvents:none. Users who scroll slightly too fast pass the form entirely. Consider widening the plateau to [0.32,0.55] to give the form ~500px of dwell time."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_lunet_api.py",
+    "/app/test_reports/pytest/lunet_api_iter3.xml"
+  ],
+  "action_items": [
+    "(Optional polish) Tighten Hero Phase B→C crossfade so 'Lunet' wordmark fully fades before mascot copy crosses into its column.",
+    "(Optional polish) Widen subtitleOpacity plateau in Hero.jsx so waitlist form is interactable across a larger scroll band."
+  ],
+  "critical_code_review_comments": [
+    "Hero.jsx is self-contained with manual lerpRange interpolation — confirmed working in React 19 + framer-motion v12 where useTransform→style had failed previously. Good fallback.",
+    "Hero.jsx hero-ghost <motion.img> animates `y: [0,-10,0]` via framer-motion AND its parent <div> uses inline style transform. The img transform string also includes rotateY (from a non-motion value) — Playwright confirms the rotateY composes correctly with motion's translateY each frame.",
+    "ProjectsPage / ProjectDetailPage / FeaturesPage all call window.scrollTo(0,0) inside useEffect — good. They also handle loading + 404-style 'Not found.' states.",
+    "ScrollTiltedGrid Tile wraps figure children in an <a href> when item.href is provided. data-testid `tile-link-{label}` is on the outer motion.figure, while the actual clickable anchor is a child. Anchor click navigation works via standard browser nav (full page reload to /projects/:id, not SPA Link). Consider using react-router Link/useNavigate for SPA-style transitions to keep state and avoid the brief reload.",
+    "Projects.jsx renders the 'Show all projects' CTA above the tilted grid as required, with correct testid.",
+    "App.js has 4 routes wired correctly; SmoothScroll wraps BrowserRouter children which is fine.",
+    "ProjectsPage conditionally renders pp-open / pp-download / pp-github based on whether the project has the URL. Six seeded projects do not all have all three URLs (e.g., ghostpad has no download_url). This is by design — not a bug — but if main agent wants every card to expose the same testid surface for automation, render disabled buttons instead.",
+    "Sonner Toaster is mounted at App root — confirmed working from inside Hero waitlist submit."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100% (10/10)", "frontend": "100% of required flows"},
+  "test_credentials": "none required",
+  "seed_data_creation": "Added ~3 waitlist entries via UI + pytest during this iteration (count was 11 going in, ended at 16). Safe to leave.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Hero is now 300vh pinned. To trigger phases: scroll 0 = Phase A start (ghost only), scroll ~950 = Phase B (titles settled + waitlist interactable, subtitleOpacity wrapper has opacity:1 + pointerEvents:auto only in scroll 864-1080), scroll ~2100 = Phase C (ghost flipped+shrunk, mascot copy visible). For waitlist form submission to succeed via UI you MUST scroll to ~950px first; outside band the form wrapper has pointerEvents:none. tile-link-{Label} testids use Title-Case labels (GhostPad, LanternFM, Atlas-CLI, Lumenboard, TinyBrew, MothLamp) — they navigate to lowercase project ids via the anchor's href. Show-all-projects-btn is above the tilted grid in Projects.jsx and is a react-router Link.",
+  "rca of the issue": "n/a — no production bugs found in iteration 3."
+}

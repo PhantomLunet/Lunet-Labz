@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const MARQUEE = [
   "Lunet Labz",
@@ -56,22 +57,22 @@ export default function Footer() {
           <p className="section-eyebrow mb-4">Explore</p>
           <ul className="space-y-2 text-[var(--ink-soft)]">
             <li>
-              <a href="#projects" className="hover:text-[var(--ink)]">
+              <Link to="/projects" className="hover:text-[var(--ink)]">
                 Projects
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#features" className="hover:text-[var(--ink)]">
+              <Link to="/features" className="hover:text-[var(--ink)]">
                 What we believe
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#how" className="hover:text-[var(--ink)]">
+              <a href="/#how" className="hover:text-[var(--ink)]">
                 How it works
               </a>
             </li>
             <li>
-              <a href="#coffee" className="hover:text-[var(--ink)]">
+              <a href="/#coffee" className="hover:text-[var(--ink)]">
                 Buy us a coffee
               </a>
             </li>
