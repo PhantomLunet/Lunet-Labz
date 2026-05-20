@@ -20,6 +20,20 @@ export default function ScrollExpandMedia({
   const sectionRef = useRef(null);
 
   useEffect(() => {
+    // Allow anchor clicks (nav links) to skip the intro
+    const onAnchorClick = (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (link && link.getAttribute("href") !== "#") {
+        setScrollProgress(1);
+        setMediaFullyExpanded(true);
+        setShowContent(true);
+      }
+    };
+    document.addEventListener("click", onAnchorClick);
+    return () => document.removeEventListener("click", onAnchorClick);
+  }, []);
+
+  useEffect(() => {
     const handleWheel = (e) => {
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
         setMediaFullyExpanded(false);

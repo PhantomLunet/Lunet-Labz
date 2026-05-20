@@ -21,15 +21,13 @@ Build a landing page for a website called "Lunet Labz" — a website for project
 - **Critical fix**: Disabled `@emergentbase/visual-edits` in `craco.config.js` because its data-x-line-number / data-x-file-name props conflict with R3F's dashed-path prop convention.
 
 ## Implemented Features (Dec 2025)
-- Hero with R3F canvas: floating ghost mascot, mouse parallax, sparkle particles, soft halo shader
-- Mouse-tracked 3D animation + scroll-linked Framer Motion reveals
-- Lenis smooth scroll
-- Projects bento grid (1 large featured + 5 cards) with Open/Download/Source buttons
-- Features section (4 alternating-offset cards)
-- How It Works 3-step timeline
-- Buy us a coffee section with floating ceramic cup
-- Footer with infinite marquee
-- Waitlist email signup with Sonner toast feedback
+- **Iteration 1**: Hero with R3F canvas, projects bento grid, features, how-it-works, coffee, footer marquee.
+- **Iteration 2 (current)**:
+  - Replaced R3F hero with `ScrollExpandMedia` — wheel/touch-driven image-grows-into-view intro using transparent-bg ghost PNG. Title splits into two H1s ("Lunet" + "Labz" terracotta italic).
+  - Added `FloatingGhost` stage: transparent ghost PNG floating with motion + soft halo + optional Spline scene (`SPLINE_GHOST_SCENE` null until user provides scene URL).
+  - Replaced Projects bento with `ScrollTiltedGrid` — cinematic tilted reel of project images that rise, focus, then tilt out as you scroll. Below it: an action shelf list with all project links.
+  - rembg-generated `/public/ghost-transparent.png` (alpha cutout of Nano Banana ghost).
+  - Anchor links in nav now auto-skip the scroll-expand intro.
 
 ## P0/P1/P2 Backlog
 - P1: Mobile responsiveness fine-tuning for ghost canvas
